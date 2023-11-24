@@ -1,12 +1,12 @@
 package gca.net.RentaVehiculo.service.impl
 
-import gca.net.RentaVehiculo.dto.MedioPagoDto
+
 import gca.net.RentaVehiculo.dto.UsuarioDto
 import gca.net.RentaVehiculo.entity.TipoMedioPago
 import gca.net.RentaVehiculo.entity.Usuario
 import gca.net.RentaVehiculo.exception.ConflictException
 import gca.net.RentaVehiculo.exception.ModelNotFoundException
-import gca.net.RentaVehiculo.repository.IMedioPagoRepository
+
 import gca.net.RentaVehiculo.repository.IUsuarioRepository
 import gca.net.RentaVehiculo.service.IUsuarioService
 import jakarta.annotation.PostConstruct
@@ -19,8 +19,7 @@ import java.time.LocalDateTime
 
 @Service
 class UsuarioServiceImpl @Autowired constructor(
-        private var repositoryUsuario: IUsuarioRepository,
-        private var repositoryMedioPagoRepository: IMedioPagoRepository) : IUsuarioService {
+        private var repositoryUsuario: IUsuarioRepository) : IUsuarioService {
 
     private var modelMapper = ModelMapper()
 
@@ -73,7 +72,7 @@ class UsuarioServiceImpl @Autowired constructor(
         modelMapper.configuration.matchingStrategy = MatchingStrategies.STRICT
 
         // Configuración de un convertidor para LocalDateTime
-        modelMapper.addConverter { ctx ->
+        modelMapper.addConverter<Any?, Timestamp?> { ctx ->
             if (ctx.source != null) {
                 Timestamp.valueOf(ctx.source as LocalDateTime?)
             } else {

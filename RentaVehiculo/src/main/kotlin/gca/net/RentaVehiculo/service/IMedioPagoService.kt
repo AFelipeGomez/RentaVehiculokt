@@ -10,7 +10,7 @@ interface IMedioPagoService {
     fun save(medioPago: MedioPago)
 
     @Throws(ModelNotFoundException::class)
-    fun getByUsuario(nombreUsuario:String):List<MedioPago>
+    fun getByIdUsuario(idUsuario:Long):List<MedioPago>
 
     @Throws(ModelNotFoundException::class)
     fun deleteById(id:Long)
