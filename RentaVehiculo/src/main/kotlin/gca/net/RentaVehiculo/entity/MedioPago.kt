@@ -6,7 +6,7 @@ import jakarta.persistence.*
 @Table(name = "medio_pago")
 data class MedioPago(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private var id: Long,
+        var id: Long,
 
         @Column(name = "numero", nullable = false, length = 50)
         var numero: String, // Por ejemplo,9874256984931688

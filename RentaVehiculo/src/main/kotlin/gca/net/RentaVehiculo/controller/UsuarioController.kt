@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/usuarios")
 class UsuarioController @Autowired constructor(
 
-        private val service: IUsuarioService
+    private val service: IUsuarioService,
+    private val tranfer: UsuarioDto
 ) {
     @Throws(ConflictException::class)
     @PostMapping
@@ -24,15 +25,22 @@ class UsuarioController @Autowired constructor(
 
 
     @DeleteMapping("/{nombreUsuario}")
-    fun  delete(@PathVariable nombreUsuario: String ) :ResponseEntity<Any> {
+    fun delete(@PathVariable nombreUsuario: String): ResponseEntity<Any> {
         service.delete(nombreUsuario)
-        return  ResponseEntity(HttpStatus.NO_CONTENT);
+        return ResponseEntity("Usuario eliminado",HttpStatus.NO_CONTENT);
     }
 
 
     @GetMapping("/{nombreUsuario}")
-    fun getByDocument(@PathVariable nombreUsuario: String):ResponseEntity<Any>{
-        val usuarioDto = service.getByusuario(nombreUsuario)
+    fun getByDocument(@PathVariable nombreUsuario: String): ResponseEntity<Any> {
+        val usuarioDto = tranfer.fromUsuarioToDto(service.getByusuario(nombreUsuario))
+        return ResponseEntity(usuarioDto,HttpStatus.OK)
+    }
+
+
+    @GetMapping
+    fun getAll(): ResponseEntity<Any> {
+        val usuarioDto:List<UsuarioDto> = tranfer.fromUsuarioListToDtoList(service.all())
         return ResponseEntity(usuarioDto,HttpStatus.OK)
     }
 

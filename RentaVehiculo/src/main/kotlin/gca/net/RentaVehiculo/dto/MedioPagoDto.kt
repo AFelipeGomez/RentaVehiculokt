@@ -1,11 +1,34 @@
 package gca.net.RentaVehiculo.dto
 
-import gca.net.RentaVehiculo.entity.TipoMedioPago
-import gca.net.RentaVehiculo.entity.Usuario
+import com.fasterxml.jackson.annotation.JsonProperty
+import gca.net.RentaVehiculo.entity.MedioPago
+import org.springframework.stereotype.Component
 
+@Component
 data class MedioPagoDto(
-        private var id:Long,
-        private var nombreUsuario:String,
-        private var medioPago: TipoMedioPago
 
-)
+    @JsonProperty("Id")
+    var id: String,
+
+
+    @JsonProperty("Medio Pago")
+    var medioPago: String,
+
+    @JsonProperty("Numero")
+    var numero:String
+
+
+) {
+
+    constructor() : this("", "", "")
+
+    fun fromMedioPagoToDto(medioPago: List<MedioPago>): List<MedioPagoDto> {
+        return medioPago.map {
+            MedioPagoDto(
+                id = it.id.toString(),
+                medioPago = it.tipoMedioPago.nombre,
+                numero = it.numero
+            )
+        }
+    }
+}

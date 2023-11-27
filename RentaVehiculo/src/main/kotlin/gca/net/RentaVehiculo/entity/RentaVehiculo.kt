@@ -6,30 +6,30 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "renta_vehiculo")
 data class RentaVehiculo(
-        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private var id: Long,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long,
 
-        @Column
-        private var valor: Double,
+    @Column
+    var valor: Double,
 
-        @OneToOne
-        @JoinColumn(name = "id_medio_pago")
-        private var medioPago: MedioPago,
+    @OneToOne
+    @JoinColumn(name = "id_medio_pago")
+    var medioPago: MedioPago,
 
-        @Column(columnDefinition = "DATETIME")
-        private var fechaInicio: LocalDateTime,
+    @Column(columnDefinition = "DATETIME")
+    var fechaInicio: LocalDateTime? = null,
 
-        @Column(columnDefinition = "DATETIME")
-        private var fechaFinal: LocalDateTime,
+    @Column(columnDefinition = "DATETIME")
+    var fechaFinal: LocalDateTime? = null,
 
-        @OneToOne
-        @JoinColumn(name = "id_estado")
-        private var estadoRenta: EstadoRenta,
-
-
-        @OneToOne
-        @JoinColumn(name = "id_usuario")
-        private var usuario: Usuario
+    @ManyToOne
+    @JoinColumn(name = "id_estado")
+    var estadoRenta: EstadoRenta? = null,
 
 
-        )
+    @OneToOne
+    @JoinColumn(name = "id_usuario")
+    var usuario: Usuario
+
+
+)

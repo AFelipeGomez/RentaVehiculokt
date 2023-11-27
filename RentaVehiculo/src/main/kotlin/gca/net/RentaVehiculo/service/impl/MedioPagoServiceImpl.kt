@@ -25,8 +25,6 @@ class MedioPagoServiceImpl @Autowired constructor(
 
     override fun getByIdUsuario(idUsuario: Long): List<MedioPago> {
         return repository.findAllByIdUsuario(idUsuario)
-
-
     }
 
 
@@ -46,7 +44,7 @@ class MedioPagoServiceImpl @Autowired constructor(
     }
 
     private fun validarExistenciaMedioPago(usuarioId: Long, numero: String) {
-        if (repository.countByUsuarioIdAndTipoIgnoreCase(usuarioId, numero)) {
+        if (repository.countByUsuarioIdAndTipoIgnoreCase(usuarioId, numero)>0) {
             throw DataIntegrityViolationException("El medio de pago ya está registrado")
         }
     }

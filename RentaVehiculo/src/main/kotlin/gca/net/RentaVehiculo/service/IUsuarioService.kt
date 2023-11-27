@@ -13,6 +13,9 @@ interface IUsuarioService {
     @Throws(ConflictException::class)
     fun save(usuario: Usuario)
 
+    @Throws(ConflictException::class)
+    fun all():List<Usuario>
+
     @Throws(ModelNotFoundException::class)
     fun update(medioPago: TipoMedioPago)
 
@@ -20,5 +23,5 @@ interface IUsuarioService {
     fun delete(nombreUsuario: String)
 
     @Throws(ModelNotFoundException::class)
-    fun getByusuario(nombreUsuario: String): UsuarioDto
+    fun getByusuario(nombreUsuario: String): Usuario
 }

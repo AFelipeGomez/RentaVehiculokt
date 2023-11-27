@@ -2,8 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="RentaVehiculo.RentaVehiculo.main~1" target="17" />
-      <module name="RentaVehiculo.RentaVehiculo.test~1" target="17" />
+      <module name="RentaVehiculo.RentaVehiculo.main" target="17" />
+      <module name="RentaVehiculo.RentaVehiculo.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

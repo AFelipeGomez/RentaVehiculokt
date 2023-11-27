@@ -1,5 +1,6 @@
 package gca.net.RentaVehiculo.controller
 
+import gca.net.RentaVehiculo.dto.MedioPagoDto
 import gca.net.RentaVehiculo.entity.MedioPago
 import gca.net.RentaVehiculo.exception.ConflictException
 import gca.net.RentaVehiculo.service.IMedioPagoService
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/MedioPago")
 class MedioPagoController @Autowired constructor(
 
-        private var service: IMedioPagoService
+        private var service: IMedioPagoService,
+    private val transfer:MedioPagoDto
 ){
 
     @Throws(ConflictException::class)
@@ -25,13 +27,13 @@ class MedioPagoController @Autowired constructor(
     @DeleteMapping("/{idMedioPago}")
     fun  delete(@PathVariable idMedioPago: Long ) :ResponseEntity<Any> {
         service.deleteById(idMedioPago)
-        return  ResponseEntity(HttpStatus.NO_CONTENT);
+        return  ResponseEntity( "Medio de pago eliminado",HttpStatus.NO_CONTENT);
     }
-    /*@GetMapping("/{idUsuario}")
+    @GetMapping("/{idUsuario}")
     fun getByUsuario(@PathVariable idUsuario: Long):ResponseEntity<Any>{
         //val usuarioDto = service.getByusuario(nombreUsuario)
-        return ResponseEntity(usuarioDto,HttpStatus.OK)
-    }*/
+        return ResponseEntity(transfer.fromMedioPagoToDto(service.getByIdUsuario(idUsuario)),HttpStatus.OK)
+    }
 
 
 }

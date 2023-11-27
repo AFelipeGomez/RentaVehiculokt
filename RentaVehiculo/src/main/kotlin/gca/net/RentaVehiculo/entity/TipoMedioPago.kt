@@ -5,8 +5,8 @@ import jakarta.persistence.*
 data class TipoMedioPago(
 
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private var id: Long,
+       var id: Long,
 
         @Column(name = "nombre", nullable = false, length = 50)
-        private var nombre: String //Ejemplo "Tarjeta Credito"
+        var nombre: String //Ejemplo "Tarjeta Credito"
 )

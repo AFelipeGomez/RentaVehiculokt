@@ -1,7 +1,7 @@
 package gca.net.RentaVehiculo.service.impl
 
 
-import gca.net.RentaVehiculo.dto.UsuarioDto
+
 import gca.net.RentaVehiculo.entity.TipoMedioPago
 import gca.net.RentaVehiculo.entity.Usuario
 import gca.net.RentaVehiculo.exception.ConflictException
@@ -9,19 +9,17 @@ import gca.net.RentaVehiculo.exception.ModelNotFoundException
 
 import gca.net.RentaVehiculo.repository.IUsuarioRepository
 import gca.net.RentaVehiculo.service.IUsuarioService
-import jakarta.annotation.PostConstruct
-import org.modelmapper.ModelMapper
-import org.modelmapper.convention.MatchingStrategies
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.sql.Timestamp
-import java.time.LocalDateTime
+import org.springframework.transaction.annotation.Transactional
+
 
 @Service
+@Transactional
 class UsuarioServiceImpl @Autowired constructor(
         private var repositoryUsuario: IUsuarioRepository) : IUsuarioService {
 
-    private var modelMapper = ModelMapper()
+
 
 
     @Throws(ConflictException::class)
@@ -34,6 +32,10 @@ class UsuarioServiceImpl @Autowired constructor(
         }
 
         repositoryUsuario.save(usuario)
+    }
+
+    override fun all(): List<Usuario> {
+        return repositoryUsuario.findAll()
     }
 
 
@@ -51,33 +53,18 @@ class UsuarioServiceImpl @Autowired constructor(
     }
 
     @Throws(ModelNotFoundException::class)
-    override fun getByusuario(nombreUsuario: String): UsuarioDto {
+    override fun getByusuario(nombreUsuario: String): Usuario {
         if (!validarNombreUsuario(nombreUsuario)) {
             throw ModelNotFoundException("Usuario no encontrado")
         }
-        return transferirDto(repositoryUsuario.findByNombreUsuario(nombreUsuario))
+        return repositoryUsuario.findByNombreUsuario(nombreUsuario)
     }
 
     fun validarNombreUsuario(nombreUsuario: String): Boolean {
         return repositoryUsuario.existsByNombreUsuario(nombreUsuario)
     }
 
-    private fun transferirDto(usuario: Usuario): UsuarioDto {
-        return modelMapper.map(usuario, UsuarioDto::class.java)
 
-    }
 
-    @PostConstruct
-    fun configureModelMapper() {
-        modelMapper.configuration.matchingStrategy = MatchingStrategies.STRICT
 
-        // Configuración de un convertidor para LocalDateTime
-        modelMapper.addConverter<Any?, Timestamp?> { ctx ->
-            if (ctx.source != null) {
-                Timestamp.valueOf(ctx.source as LocalDateTime?)
-            } else {
-                null
-            }
-        }
-    }
 }
